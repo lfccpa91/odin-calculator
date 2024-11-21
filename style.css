@@ -2,3 +2,36 @@
     background-color: coral;
     opacity: 100%;
 }
+
+body {
+    background-color: #556565;
+    font-size: 36px;
+}
+
+.calculator {
+    background-color: #c9d6d6;
+}
+
+.row {
+    display: flexbox;
+    width: 480px;
+}
+
+#numberDisplay {
+    width: 440px;
+    height: 48px;
+    background-color: azure;
+    border-color: black;
+    text-align:right;
+    border-radius: 12px;
+    padding-right: 12px;
+    margin-bottom: 12px;
+}
+
+button {
+    height: 100px;
+    width: 100px;
+    font-size:30px;
+    margin: 3px;
+    border-radius: 12px;
+}

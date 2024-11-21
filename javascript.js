@@ -6,18 +6,29 @@ let operator = "";
 let operatorStatus = false;
 let equalStatus = false;
 
+//This function keeps results of both large and small numbers under the nine character threshold for the display field
+function resultRounder(number=0) {
+    if (String(number).length <=9) {
+        return number;
+    } else if (number>99999999){
+        return number.toExponential(3);
+    } else {
+        return number.toFixed(8-String(number).indexOf('.'));
+    }
+}
+
 function add(num1, num2) {
-    return num1+num2;
+    return resultRounder(num1+num2);
 }
 function subtract(num1, num2) {
-    return num1-num2;
+    return resultRounder(num1-num2);
 }
 function multiply(num1,num2) {
-    return num1*num2;
+    return resultRounder(num1*num2);
 }
 function divide(num1, num2) {
     if (num2 != 0) {
-        return num1/num2;
+        return resultRounder(num1/num2);
     } else {
         return "Error!";
     }
@@ -64,12 +75,18 @@ numberButtons.forEach((button) => {
 const operatorButtons = document.querySelectorAll(".operator");
 operatorButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-        numeroUno = displayNumber.textContent*1;
+        if (numeroUno!=="" && equalStatus===false) {
+            numeroDos=displayNumber.textContent*1;
+            numeroUno= operate(numeroUno,numeroDos,operator);
+            displayNumber.textContent=String(numeroUno);
+        } else if (numeroDos==="") {
+            numeroUno = displayNumber.textContent*1;
+        }
         operator=button.id;
-        operatorStatus = true;
+        operatorStatus = true; //operatorStatus is a flag that the operator button has been pressed.
+        
     });
 })
-
 
 const equalsButton = document.querySelector("#equals");
 equalsButton.addEventListener("click", () =>{
@@ -78,7 +95,7 @@ equalsButton.addEventListener("click", () =>{
     }
     numeroUno= operate(numeroUno,numeroDos,operator);
     displayNumber.textContent=String(numeroUno);
-    equalStatus =true; 
+    equalStatus =true; //equalStatus is a flag to indicate that the equals button has been pressed - its used in cases where the equals button is being pressed in succession and when a calculation is being made
 });
 
 const clearButton = document.querySelector("#clear");
@@ -109,3 +126,9 @@ delButton.addEventListener("click", () => {
         displayNumber.textContent = "0";
     }
 });
+
+/* Future fixes:
+1. delete button works on inputs, but not when used on a calculated value
+(should it just be disabled in those cases anyway?)
+
+2. Changing signs also works on inputs, but not when used on calculated values..*/
